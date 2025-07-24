@@ -3,7 +3,6 @@
 #include <cmath>
 #include "celestial_mechanics/orbital_elements/AnomalyConverter.hpp"
 #include "celestial_mechanics/orbital_elements/Elements.hpp"
-#include "semi-analytical/transformations.hpp"
 
 
 DelaunayElements MeanToOsculating_Kozai(DelaunayElements const& mean, double mu, double J2) {
@@ -54,7 +53,7 @@ DelaunayElements MeanToOsculating_Kozai(DelaunayElements const& mean, double mu,
     double const cos_3f_2gs = std::cos(3 * f + 2 * gs);
     double const cos_2gp = std::cos(2 * gp);
     double const cos_f_2gp = std::cos(f + 2 * gp);
-    double const cos_2f_2gp = std::cos(2 * (f + gs));
+    double const cos_2f_2gp = std::cos(2 * (f + gp));
     double const cos_3f_2gp = std::cos(3 * f + 2 * gp);
     double const cos_4f_2gp = std::cos(4 * f + 2 * gp);
     double const cos_5f_2gp = std::cos(5 * f + 2 * gp);
@@ -205,7 +204,7 @@ DelaunayElements MeanToOsculating_Kozai(DelaunayElements const& mean, double mu,
                       + 4 * (29 - 74 * theta2 - 11 * theta4)
                       + 2 * e2 * (7 - 22 * theta2 + 155 * theta4)
                       - e4 * (47 - 166 * theta2 + 167 * theta4)) * sin_f
-          + 6 / e / e * (32 * (9 - 26 * theta2 + 25 * theta4)
+          + 6 / e2 * (32 * (9 - 26 * theta2 + 25 * theta4)
                          + 16 * e2 * (103 - 318 * theta2 + 175 * theta4)
                          - 2 * e4 * (483 - 1614 * theta2 + 563 * theta4)
                          - e6 * (13 - 82 * theta2 + 125 * theta4)
@@ -345,7 +344,7 @@ DelaunayElements MeanToOsculating_Kozai(DelaunayElements const& mean, double mu,
                  + 3 * sin_2f_2gs + e * sin_3f_2gs
                 );
     double const delta_h2 = mu4 * J22 / 128 / Gp8 * theta *
-        (12 * (4 * (1 - 10 * theta2) - e2 * (9 - 5 * theta2) + 2 * e2 * (8 - 15 * theta2)) * (f - lp)
+        (12 * (4 * (1 - 10 * theta2) - e2 * (9 - 5 * theta2) + 2 * e2 * (8 - 15 * theta2) * cos_2gp) * (f - lp)
          + 12 * e * (3 * (1 - 3 * theta2) * (4 - eta * (4 - e2)) / e2 - (17 + 21 * theta2)) * sin_f
          + 6 * (12 * (1 - 3 * theta2) * (1 - eta) / e2 - (9 - 5 * theta2)) * sin_2f
          + 12 * e * (1 - 3 * theta2) * (1 - eta) * sin_3f

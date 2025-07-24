@@ -7,3 +7,6 @@ add_subdirectory(third_party)
 
 enable_testing()
 add_subdirectory(tests)
+
+add_executable(main main.cpp)
+target_link_libraries(main J2)

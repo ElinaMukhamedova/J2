@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Kozai/transformations.hpp"
+#include "Kozai/transformations_Kozai.hpp"
 #include "celestial_mechanics/orbital_elements/ElementsConverter.hpp"
 #include <numbers>
 
@@ -25,8 +25,8 @@ TEST(TransformationsKozaiTest, MeanToOsculatingToMean_InclinationRange_Works) {
         KeplerianElements const originKeplerian{inclination, ascendingNode, semiMajor, eccentricity, argumentPeriapsis, trueAnomaly};
         DelaunayElements const mean_origin = Orbit::convertKeplerianToDelaunay(originKeplerian, mu);
 
-        DelaunayElements const osc = MeanToOsculating(mean_origin, mu, J2);
-        DelaunayElements const mean_result = OsculatingToMean(osc, mu, J2);
+        DelaunayElements const osc = MeanToOsculating_Kozai(mean_origin, mu, J2);
+        DelaunayElements const mean_result = OsculatingToMean_Kozai(osc, mu, J2);
 
         std::cout << "eccentricity = " << eccentricity << ", inclination = " << inclination / std::numbers::pi * 180 << " degree(s)" << std::endl;
         std::cout << mean_origin.l << " " << mean_result.l << std::endl;
@@ -67,8 +67,8 @@ TEST(TransformationsKozaiTest, OsculatingToMeanToOsculating_InclinationRange_Wor
         KeplerianElements const originKeplerian{inclination, ascendingNode, semiMajor, eccentricity, argumentPeriapsis, trueAnomaly};
         DelaunayElements const osculating_origin = Orbit::convertKeplerianToDelaunay(originKeplerian, mu);
 
-        DelaunayElements const mean = OsculatingToMean(osculating_origin, mu, J2);
-        DelaunayElements const osculating_result = MeanToOsculating(mean, mu, J2);
+        DelaunayElements const mean = OsculatingToMean_Kozai(osculating_origin, mu, J2);
+        DelaunayElements const osculating_result = MeanToOsculating_Kozai(mean, mu, J2);
 
         std::cout << "eccentricity = " << eccentricity << ", inclination = " << inclination / std::numbers::pi * 180 << " degree(s)" << std::endl;
         std::cout << osculating_origin.l << " " << osculating_result.l << std::endl;
@@ -105,8 +105,8 @@ TEST(TransformationsKozaiTest, MeanToOsculatingToMean_EccentricityRange_Works) {
         KeplerianElements const originKeplerian{inclination, ascendingNode, semiMajor, eccentricity, argumentPeriapsis, trueAnomaly};
         DelaunayElements const mean_origin = Orbit::convertKeplerianToDelaunay(originKeplerian, mu);
 
-        DelaunayElements const osc = MeanToOsculating(mean_origin, mu, J2);
-        DelaunayElements const mean_result = OsculatingToMean(osc, mu, J2);
+        DelaunayElements const osc = MeanToOsculating_Kozai(mean_origin, mu, J2);
+        DelaunayElements const mean_result = OsculatingToMean_Kozai(osc, mu, J2);
 
         std::cout << "eccentricity = " << eccentricity << ", inclination = " << inclination / std::numbers::pi * 180 << " degree(s)" << std::endl;
         std::cout << mean_origin.l << " " << mean_result.l << std::endl;
@@ -143,8 +143,8 @@ TEST(TransformationsKozaiTest, OsculatingToMeanToOsculating_EccentricityRange_Wo
         KeplerianElements const originKeplerian{inclination, ascendingNode, semiMajor, eccentricity, argumentPeriapsis, trueAnomaly};
         DelaunayElements const osculating_origin = Orbit::convertKeplerianToDelaunay(originKeplerian, mu);
 
-        DelaunayElements const mean = OsculatingToMean(osculating_origin, mu, J2);
-        DelaunayElements const osculating_result = MeanToOsculating(mean, mu, J2);
+        DelaunayElements const mean = OsculatingToMean_Kozai(osculating_origin, mu, J2);
+        DelaunayElements const osculating_result = MeanToOsculating_Kozai(mean, mu, J2);
 
         std::cout << "eccentricity = " << eccentricity << ", inclination = " << inclination / std::numbers::pi * 180 << " degree(s)" << std::endl;
         std::cout << osculating_origin.l << " " << osculating_result.l << std::endl;

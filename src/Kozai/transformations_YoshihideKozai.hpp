@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <numbers>
 #include "celestial_mechanics/orbital_elements/AnomalyConverter.hpp"
 #include "celestial_mechanics/orbital_elements/Elements.hpp"
 
@@ -73,11 +74,13 @@ void deltas(DelaunayElements const& mean, DelaunayElements const& osculating, do
     double const Gp9 = Gp3 * Gp6;
 
     double const E = Orbit::MeanToEccentric(e, l);
-    double const f = Orbit::EccentricToTrue(e, E);
+    double f = Orbit::EccentricToTrue(e, E);
 
     double const Ep = Orbit::MeanToEccentric(ep, lp);
-    double const fp = Orbit::EccentricToTrue(ep, Ep);
+    double fp = Orbit::EccentricToTrue(ep, Ep);
 
+    f -= 2 * std::numbers::pi;
+    fp -= 2 * std::numbers::pi;
     double const gs = gp - (3 * mu2 * J2 / 4 / G4) * (1 - 5 * theta2) * (f - l);
 
     double const cos_f = std::cos(f);
@@ -256,14 +259,15 @@ void deltas(DelaunayElements const& mean, DelaunayElements const& osculating, do
                                                                                             cos_2f_4g
                                                                                        + e * (148 - 13 * e2) *
                                                                                             cos_3f_4g
-                                                                                       + 20 * (2 + 7 * e * e) *
+                                                                                       + 20 * (2 + 7 * e2) *
                                                                                             cos_4f_4g
-                                                                                       + 3 * e * (28 + 17 * e * e) *
+                                                                                       + 3 * e * (28 + 17 * e2) *
                                                                                             cos_5f_4g
-                                                                                       + 54 * e * e *
+                                                                                       + 54 * e2 *
                                                                                             cos_6f_4g
-                                                                                       + 9 * e * e * e *
+                                                                                       + 9 * e3 *
                                                                                             cos_7f_4g));
+
 
     double const delta_G1 = mu2 * J2 / 3 / Gp3 * B22 * (3 * ep * cos_fp_2gs + 3 * cos_2fp_2gs + ep * cos_3fp_2gs);
     double const delta_G2 = mu4 * J22 / 128 / G7 * (1 - theta2) *
@@ -457,12 +461,18 @@ void deltas(DelaunayElements const& mean, DelaunayElements const& osculating, do
     std::cout << "delta_H1 = " << std::setprecision(17) << 0 << '\n';
     std::cout << "delta_l1 = " << std::setprecision(17) << delta_l1 << '\n';
     std::cout << "delta_g1 = " << std::setprecision(17) << delta_g1 << '\n';
-    std::cout << "delta_h1 = " << std::setprecision(17) << 0 << '\n';
+    std::cout << "delta_h1 = " << std::setprecision(17) << delta_h1 << '\n';
     std::cout << std::endl;
     std::cout << "delta_L2 = " << std::setprecision(17) << delta_L2 << '\n';
     std::cout << "delta_G2 = " << std::setprecision(17) << delta_G2 << '\n';
     std::cout << "delta_H2 = " << std::setprecision(17) << 0 << '\n';
     std::cout << "delta_l2 = " << std::setprecision(17) << delta_l2 << '\n';
     std::cout << "delta_g2 = " << std::setprecision(17) << delta_g2 << '\n';
-    std::cout << "delta_h2 = " << std::setprecision(17) << 0 << '\n';
+    std::cout << "delta_h2 = " << std::setprecision(17) << delta_h2 << '\n';
+    std::cout << std::endl;
+    std::cout << "gs = " << std::setprecision(17) << gs << '\n';
+    std::cout << "f = " << std::setprecision(17) << f << '\n';
+    std::cout << "fp = " << std::setprecision(17) << fp << '\n';
+    std::cout << "f - l = " << std::setprecision(17) << f - l << '\n';
+    std::cout << "f - g = " << std::setprecision(17) << f - g << '\n';
 }

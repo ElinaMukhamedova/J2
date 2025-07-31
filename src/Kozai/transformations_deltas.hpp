@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <cmath>
 #include <numbers>
+#include <array>
 #include "celestial_mechanics/orbital_elements/AnomalyConverter.hpp"
 #include "celestial_mechanics/orbital_elements/Elements.hpp"
 
@@ -15,7 +16,7 @@ inline double wrapToPi(double angle) {
     return angle - std::numbers::pi;
 }
 
-void deltas(DelaunayElements const& mean, DelaunayElements const& osculating, double mu, double J2) {
+std::array<double, 6> deltas(DelaunayElements const& mean, DelaunayElements const& osculating, double mu, double J2) {
     double const L = osculating.L;
     double const G = osculating.G;
     double const H = osculating.H;
@@ -461,23 +462,5 @@ void deltas(DelaunayElements const& mean, DelaunayElements const& osculating, do
          - e2 * (7 - 3 * theta2) * sin_6f_4g
         );
 
-    std::cout << "delta_L1 = " << std::setprecision(17) << delta_L1 << '\n';
-    std::cout << "delta_G1 = " << std::setprecision(17) << delta_G1 << '\n';
-    std::cout << "delta_H1 = " << std::setprecision(17) << 0 << '\n';
-    std::cout << "delta_l1 = " << std::setprecision(17) << delta_l1 << '\n';
-    std::cout << "delta_g1 = " << std::setprecision(17) << delta_g1 << '\n';
-    std::cout << "delta_h1 = " << std::setprecision(17) << delta_h1 << '\n';
-    std::cout << std::endl;
-    std::cout << "delta_L2 = " << std::setprecision(17) << delta_L2 << '\n';
-    std::cout << "delta_G2 = " << std::setprecision(17) << delta_G2 << '\n';
-    std::cout << "delta_H2 = " << std::setprecision(17) << 0 << '\n';
-    std::cout << "delta_l2 = " << std::setprecision(17) << delta_l2 << '\n';
-    std::cout << "delta_g2 = " << std::setprecision(17) << delta_g2 << '\n';
-    std::cout << "delta_h2 = " << std::setprecision(17) << delta_h2 << '\n';
-    std::cout << std::endl;
-    std::cout << "gs = " << std::setprecision(17) << gs << '\n';
-    std::cout << "f = " << std::setprecision(17) << f << '\n';
-    std::cout << "fp = " << std::setprecision(17) << fp << '\n';
-    std::cout << "f - l = " << std::setprecision(17) << f - l << '\n';
-    std::cout << "f - g = " << std::setprecision(17) << f - g << '\n';
+    return {delta_l1, delta_g1, delta_h1, delta_L1, delta_G1, 0};
 }
